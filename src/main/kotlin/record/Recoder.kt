@@ -9,23 +9,10 @@ interface LibProcessor {
 open class LibRecord(override val libName: String) :LibProcessor {
     override var hasRecord: Boolean = false
     companion object{
-        val REACT: String
-            get() {
-                return "com.facebook.react"
-            }
-        val WEEX:String
-            get() {
-                return "com.taobao.weex"
-            }
-        val CORDOVA:String
-            get() {
-                return "org.apache.cordova"
-            }
-        val KOTLIN:String
-            get() {
-                return "kotlin."
-            }
-
+        const val REACT: String = "com.facebook.react"
+        const val WEEX: String = "com.taobao.weex"
+        const val CORDOVA: String = "org.apache.cordova"
+        const val KOTLIN: String = "kotlin."
     }
     override fun process(libName: String) {
         if(!this.hasRecord && libName.contains(this.libName)) {
@@ -41,6 +28,10 @@ class KotlinRecord(libName: String) : LibRecord(libName){
 
     constructor(libName: String,allClassName : List<String>):this(libName){
         this.allClassName = allClassName
+    }
+
+    override fun process(libName: String) {
+        super.process(libName)
     }
 
 }
