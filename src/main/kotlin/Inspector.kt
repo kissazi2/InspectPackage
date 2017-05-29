@@ -1,4 +1,6 @@
 import com.google.classyshark.Shark
+import record.KotlinRecord
+import record.LibRecord
 import java.io.File
 import javax.sound.sampled.Line
 
@@ -31,35 +33,15 @@ private fun inspectLib(apkEntity: ApkEntity) {
 
     System.out.println("All Classes " + allClassNames.size +
             "\nAll Methods " + shark.getAllMethods().size);
-    var hasReact = false;
-    var hasWeex = false
-    var hasCordova = false;
-    var hasKotlin = false;
-    for (className in allClassNames) {
 
-        if (!hasReact) {
-            if(className.contains("com.facebook.react")){
-                System.out.println("contain react");
-                hasReact = true
-            }
-        }
-        if (!hasWeex) {
-            if (className.contains("com.taobao.weex")){
-                System.out.println("contain weex");
-                hasWeex =true
-            }
-        }
-        if (!hasCordova) {
-            if (className.contains("org.apache.cordova")){
-                hasCordova = true
-                System.out.println("contain Cordova");
-            }
-        }
-        if (!hasKotlin) {
-            if (className.contains("kotlin.")){
-                hasKotlin = true
-                System.out.println("contain kotlin");
-            }
+    var processList = ArrayList<LibRecord>()
+    processList.add(LibRecord(LibRecord.REACT))
+    processList.add(LibRecord(LibRecord.WEEX))
+    processList.add(LibRecord(LibRecord.CORDOVA))
+    processList.add(KotlinRecord(LibRecord.KOTLIN,allClassNames))
+    for (className in allClassNames) {
+        for (libRecord in processList) {
+            libRecord.process(className)
         }
     }
     println("------------------------------after inspect : " + apkEntity.apk_name_cn+"-------------------------------")
