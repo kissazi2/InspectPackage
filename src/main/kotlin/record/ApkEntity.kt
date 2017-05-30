@@ -1,5 +1,7 @@
+package record
+
 data class ApkEntity(val apk_id: String, val apk_name_en: String, val apk_name_cn: String,
-                     val apk_url: String, val apk_webpage: String, val apk_icon: String) {
+                              val apk_url: String, val apk_webpage: String, val apk_icon: String) {
     companion object Factory {
         fun create(source: String): ApkEntity {
             val slice = source.slice(IntRange(1, source.length - 2))

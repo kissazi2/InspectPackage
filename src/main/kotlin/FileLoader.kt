@@ -22,14 +22,18 @@ class FileLoader(filePath : String){
     fun loadFile(): Unit {
         var file = File(this.filePath)
         BufferedReader(FileReader(file)).use { br ->
+            var count = 1
             var line = br.readLine()
             while (line != null) {
                 // process the line.
 //                println(line)
                 listener?.onLineReaded(line)
                 line = br.readLine()
+                count++
             }
             // line is not visible here.
+            print("--------------------has read $count -------------------------")
+
         }
     }
 

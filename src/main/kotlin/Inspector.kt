@@ -1,8 +1,7 @@
 import com.google.classyshark.Shark
-import record.KotlinRecord
+import record.ApkEntity
 import record.LibRecord
 import java.io.File
-import javax.sound.sampled.Line
 
 fun main(argus: Array<String>) {
     val numbers = listOf(1, 2, 3)
@@ -35,10 +34,10 @@ private fun inspectLib(apkEntity: ApkEntity) {
             "\nAll Methods " + shark.getAllMethods().size);
 
     var processList = ArrayList<LibRecord>()
-    processList.add(LibRecord(LibRecord.REACT))
-    processList.add(LibRecord(LibRecord.WEEX))
-    processList.add(LibRecord(LibRecord.CORDOVA))
-    processList.add(KotlinRecord(LibRecord.KOTLIN,allClassNames))
+    processList.add(LibRecord(LibRecord.REACT, apkEntity))
+    processList.add(LibRecord(LibRecord.WEEX, apkEntity))
+    processList.add(LibRecord(LibRecord.CORDOVA, apkEntity))
+    processList.add(LibRecord(LibRecord.KOTLIN, apkEntity))
     for (className in allClassNames) {
         for (libRecord in processList) {
             libRecord.process(className)
