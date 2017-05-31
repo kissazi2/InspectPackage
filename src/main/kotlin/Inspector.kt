@@ -1,21 +1,22 @@
 import com.google.classyshark.Shark
 import record.ApkEntity
+import record.FileFilter
 import record.LibRecord
 import java.io.File
 
 fun main(argus: Array<String>) {
-    val numbers = listOf(1, 2, 3)
     val apkinfo = "/Users/bang/Downloads/apks/apkinfo.txt"
+
     var fileLoader = FileLoader(apkinfo)
     fileLoader.listener =  (object : LineReader{
         override fun onLineReaded(source: String){
             val apkEntity1 = ApkEntity.create(source)
             inspectLib(apkEntity1)
-
         }
 
     })
     fileLoader.loadFile();
+
 }
 
 private fun inspectLib(apkEntity: ApkEntity) {
@@ -43,5 +44,12 @@ private fun inspectLib(apkEntity: ApkEntity) {
             libRecord.process(className)
         }
     }
+
+    for (process in processList){
+        //filter duplicate record
+        val fileFilter = FileFilter(process.recordPath)
+        fileFilter.filter()
+    }
     println("------------------------------after inspect : " + apkEntity.apk_name_cn+"-------------------------------")
+
 }

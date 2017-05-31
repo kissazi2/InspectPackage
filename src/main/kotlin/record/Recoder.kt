@@ -7,13 +7,17 @@ import java.io.File
 
 interface LibProcessor {
     var hasRecord: Boolean
-    val libName:String
+    val libName: String
     fun process(libName: String)
 }
 
-class LibRecord :LibProcessor {
+class LibRecord : LibProcessor {
     override val libName: String
     internal val apkEntity: ApkEntity
+    val recordPath: String
+        get() {
+            return FILE_PREFIX + libName + getPosFix(libName)
+        }
 
     constructor(libName: String, apkEntity: ApkEntity) {
         this.libName = libName
@@ -21,7 +25,8 @@ class LibRecord :LibProcessor {
     }
 
     override var hasRecord: Boolean = false
-    companion object{
+
+    companion object {
         const val REACT: String = "com.facebook.react"
         const val WEEX: String = "com.taobao.weex"
         const val CORDOVA: String = "org.apache.cordova"
@@ -29,8 +34,9 @@ class LibRecord :LibProcessor {
         const val FILE_PREFIX: String = "/Users/bang/Downloads/apks/"
 
     }
+
     override fun process(libName: String) {
-        if(!this.hasRecord && libName.contains(this.libName)) {
+        if (!this.hasRecord && libName.contains(this.libName)) {
             this.hasRecord = true
             System.out.println("contain : " + this.libName);
             record2File(this.libName)
@@ -39,7 +45,7 @@ class LibRecord :LibProcessor {
 
     private fun record2File(libName: String) {
         //记录到文件中
-        val file = File(FILE_PREFIX + libName + getPosFix(libName))
+        val file = File(recordPath)
         if (!file.exists()) {
             file.createNewFile()
         }

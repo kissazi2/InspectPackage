@@ -29,7 +29,7 @@ class FileLoader(filePath : String){
 //                println(line)
                 listener?.onLineReaded(line)
                 line = br.readLine()
-                count++
+                   count++
             }
             // line is not visible here.
             print("--------------------has read $count -------------------------")
